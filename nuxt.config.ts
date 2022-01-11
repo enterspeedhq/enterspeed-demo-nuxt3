@@ -1,5 +1,10 @@
 import { defineNuxtConfig } from "nuxt3";
 
+import postcssImport from "postcss-import";
+import postcssPresetEnv from "postcss-preset-env";
+import postcssReporter from "postcss-reporter";
+import postcssNested from "postcss-nested";
+
 export default defineNuxtConfig({
   meta: {
     meta: [
@@ -21,5 +26,32 @@ export default defineNuxtConfig({
   build: {
     extractCSS: true,
     optimizeCSS: true,
+  },
+  vite: {
+    css: {
+      postcss: {
+        plugins: [
+          postcssImport(),
+          postcssPresetEnv({
+            stage: 2,
+            preserve: false,
+            importFrom: ["assets/css/_variables.css"],
+            autoprefixer: {
+              grid: true,
+            },
+            features: {
+              "color-mod-function": { unresolved: "warn" },
+              "custom-media-queries": {},
+              "double-position-gradients": false,
+            },
+            browsers: [">= 5% in DK", "ie 11"],
+          }),
+          postcssNested(),
+          postcssReporter({
+            clearReportedMessages: true,
+          }),
+        ],
+      },
+    },
   },
 });

@@ -15,3 +15,7 @@
     <NuxtPage />
   </div>
 </template>
+
+<script>
+import "@fontsource/henny-penny";
+</script>
