@@ -1,12 +1,13 @@
 import { defineNuxtPlugin } from "#app";
 import { useNavigation } from "~/stores/navigation";
 import { useContent } from "~/stores/content";
+import type { Router } from "vue-router";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const { $config } = nuxtApp;
 
-  const router = useRouter();
-  const content = useContent();
+  const router: Router = nuxtApp.$router;
+  const contentStore = useContent();
   const navigation = useNavigation();
 
   router.beforeEach(async (to) => {
@@ -58,7 +59,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           break;
       }
 
-      content.setContent({
+      contentStore.setContent({
         meta,
         route,
       });
@@ -67,7 +68,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   return {
     provide: {
-      content: () => content.content,
+      content: () => contentStore.content,
     },
   };
 });

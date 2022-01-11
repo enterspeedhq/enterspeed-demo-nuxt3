@@ -1,5 +1,3 @@
 <template>
-  <div>
-    {{ $content() }}
-  </div>
+  <EsHero />
 </template>
