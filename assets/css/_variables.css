@@ -11,13 +11,14 @@
   --color-primary-light: #feebc8;
   --color-primary-dark: #7b341e;
 
+  --color-gray: #718096;
   --color-gray-dark: #1a202c;
 
   --color-link: var(--color-gray-dark);
 
   /* Layout
   ********************/
-  --container-max-width: 1024px;
+  --container-max-width: 1040px;
 
   /* Typography
   ********************/

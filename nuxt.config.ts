@@ -27,6 +27,10 @@ export default defineNuxtConfig({
     extractCSS: true,
     optimizeCSS: true,
   },
+  pageTransition: {
+    name: "home",
+    mode: "out-in",
+  },
   vite: {
     css: {
       postcss: {

@@ -10,7 +10,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const contentStore = useContent();
   const navigation = useNavigation();
 
-  router.beforeEach(async (to) => {
+  router.beforeEach(async (to, from, next) => {
     try {
       const handles: any = {};
       const { hasItems } = navigation;
@@ -63,6 +63,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         meta,
         route,
       });
+
+      next();
     } catch (error) {}
   });
 

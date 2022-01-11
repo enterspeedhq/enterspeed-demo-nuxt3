@@ -1,6 +1,3 @@
 <template>
-  <div>
-    <EsPageHeader />
-    {{ $content() }}
-  </div>
+  <component :is="$content().route.type" />
 </template>
