@@ -20,10 +20,14 @@
 <style lang="postcss" scoped>
 .es-hero {
   position: relative;
-  padding: 9rem;
   background: var(--color-black);
   color: var(--color-white);
   text-align: center;
+  padding: 5rem 0;
+
+  @media (--viewport-sm-min) {
+    padding: 9rem 0;
+  }
 
   &__image {
     position: absolute;
@@ -38,8 +42,16 @@
   }
 
   &__title {
-    font-size: 3.75rem;
+    font-size: 1.5rem;
     color: var(--color-primary-light);
+
+    @media (--viewport-sm-min) {
+      font-size: 2.25rem;
+    }
+
+    @media (--viewport-md-min) {
+      font-size: 3.75rem;
+    }
   }
 
   &__text {

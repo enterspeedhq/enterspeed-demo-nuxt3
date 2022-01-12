@@ -37,13 +37,15 @@
 <style lang="postcss" scoped>
 .es-products {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-gap: 2.5rem;
   padding: 2.5rem 0;
 
+  @media (--viewport-sm-min) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   &__product {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
-      rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    box-shadow: var(--box-shadow);
     background: var(--color-white);
     border-radius: 0.375rem;
     overflow: hidden;

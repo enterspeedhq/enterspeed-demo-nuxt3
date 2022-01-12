@@ -26,10 +26,14 @@
 
   &__title {
     color: var(--color-white);
-    font-size: 3.75rem;
     position: relative;
     text-align: center;
     margin: 0;
+    font-size: 2.25rem;
+
+    @media (--viewport-md-min) {
+      font-size: 3.75rem;
+    }
   }
 }
 </style>

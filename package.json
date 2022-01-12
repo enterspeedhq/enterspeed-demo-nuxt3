@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@fontsource/henny-penny": "^4.5.0",
+    "@fontsource/gentium-book-basic": "^4.5.0",
     "@pinia/nuxt": "^0.1.8",
     "pinia": "^2.0.9",
     "postcss": "^7.0.0",
     "postcss-import": "^12.0.1",
     "postcss-nested": "^4.1.2",
-    "postcss-preset-env": "6.7.0",
-    "postcss-reporter": "^6.0.1"
+    "postcss-preset-env": "6.7.0"
   }
 }

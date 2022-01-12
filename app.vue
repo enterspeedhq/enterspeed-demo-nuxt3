@@ -18,4 +18,5 @@
 
 <script>
 import "@fontsource/henny-penny";
+import "@fontsource/gentium-book-basic";
 </script>

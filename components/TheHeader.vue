@@ -6,7 +6,29 @@
           <span>📙</span> The Flying Trunk
         </NuxtLink>
 
-        <div class="header__links">
+        <button
+          @click="toggle()"
+          class="header__trigger"
+          aria-label="Toggle navigation"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            :class="{ 'header__close-icon': open, 'header__open-icon': !open }"
+          >
+            <path
+              v-if="open"
+              fill="currentColor"
+              d="M.439,21.44a1.5,1.5,0,0,0,2.122,2.121L11.823,14.3a.25.25,0,0,1,.354,0l9.262,9.263a1.5,1.5,0,1,0,2.122-2.121L14.3,12.177a.25.25,0,0,1,0-.354l9.263-9.262A1.5,1.5,0,0,0,21.439.44L12.177,9.7a.25.25,0,0,1-.354,0L2.561.44A1.5,1.5,0,0,0,.439,2.561L9.7,11.823a.25.25,0,0,1,0,.354Z"
+            ></path>
+            <path
+              v-else
+              fill="currentColor"
+              d="M 3 5 A 1.0001 1.0001 0 1 0 3 7 L 21 7 A 1.0001 1.0001 0 1 0 21 5 L 3 5 z M 3 11 A 1.0001 1.0001 0 1 0 3 13 L 21 13 A 1.0001 1.0001 0 1 0 21 11 L 3 11 z M 3 17 A 1.0001 1.0001 0 1 0 3 19 L 21 19 A 1.0001 1.0001 0 1 0 21 17 L 3 17 z"
+            ></path>
+          </svg>
+        </button>
+
+        <div class="header__links" :class="{ 'header__links--open': open }">
           <div
             v-for="item in navigation.items"
             :key="item.id"
@@ -16,9 +38,24 @@
               {{ item.view.label }}
             </NuxtLink>
 
+            <button
+              v-if="item.view.children && item.view.children.length"
+              class="header__trigger-sub"
+              :class="{ 'header__trigger-sub--active': activeSub == item.id }"
+              @click="toggleSub(item.id)"
+            >
+              <svg viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                ></path>
+              </svg>
+            </button>
+
             <div
               v-if="item.view.children && item.view.children.length"
               class="header__sub"
+              :class="{ 'header__sub--active': activeSub == item.id }"
             >
               <NuxtLink
                 v-for="child in item.view.children"
@@ -36,10 +73,45 @@
   </nav>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useNavigation } from "~/stores/navigation";
 
 const navigation = useNavigation();
+</script>
+
+<script lang="ts">
+export default {
+  data() {
+    return {
+      open: false,
+      activeSub: "",
+    };
+  },
+  methods: {
+    toggle() {
+      this.open = !this.open;
+    },
+    toggleSub(id: string) {
+      if (id == this.activeSub) {
+        this.activeSub = "";
+      } else {
+        this.activeSub = id;
+      }
+    },
+    onRouteChange() {
+      this.open = false;
+      this.activeSub = "";
+    },
+  },
+  watch: {
+    $route: {
+      handler: "onRouteChange",
+      flush: "pre",
+      immediate: true,
+      deep: true,
+    },
+  },
+};
 </script>
 
 <style lang="postcss" scoped>
@@ -53,22 +125,127 @@ const navigation = useNavigation();
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+
+    @media (--viewport-md-min) {
+      flex-direction: row;
+    }
+  }
+
+  &__trigger {
+    display: flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.375rem;
+
+    &:hover,
+    &:focus {
+      background: var(--color-gray-light);
+    }
+
+    @media (--viewport-md-min) {
+      display: none;
+    }
+  }
+
+  &__trigger-sub {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0.375rem;
+
+    &:hover,
+    &:focus {
+      background: var(--color-gray-light);
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &--active {
+      transform: rotate(180deg);
+    }
+
+    @media (--viewport-md-min) {
+      display: none;
+    }
+  }
+
+  &__open-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &__close-icon {
+    width: 0.75rem;
+    height: 0.75rem;
   }
 
   &__links {
     display: flex;
+    width: 100%;
+    left: 0;
+    background: var(--color-white);
+    z-index: 1;
+    border-top: 1px solid var(--color-gray-light);
+    flex-direction: column;
+    transition: max-height 0.2s, padding 0.2s, opacity 0.4s;
+    visibility: hidden;
+    padding: 0;
+    opacity: 0;
+    position: absolute;
+    top: 60px;
+
+    @media (--viewport-md-min) {
+      border-top: none;
+      top: 0;
+      position: relative;
+      opacity: 1;
+      width: auto;
+      flex-direction: row;
+      visibility: visible;
+    }
+
+    &--open {
+      opacity: 1;
+      padding: 0.5rem 0;
+      display: flex;
+      visibility: visible;
+    }
   }
 
   &__item {
-    margin-left: 1rem;
     position: relative;
+    padding: 0.5rem;
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 
-    &:hover {
-      .header {
-        &__sub {
-          opacity: 1;
-          visibility: visible;
-          transform: scale(1);
+    @media (--viewport-md-min) {
+      padding: 0;
+      margin-left: 1rem;
+
+      &:hover {
+        .header {
+          &__sub {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+          }
         }
       }
     }
@@ -78,8 +255,12 @@ const navigation = useNavigation();
     opacity: 0.9;
     transition: opacity 0.2s;
     font-weight: 500;
-    font-size: 0.875rem;
     padding: 0.5rem;
+
+    @media (--viewport-md-min) {
+      font-size: 0.875rem;
+    }
+
     &:hover {
       opacity: 1;
     }
@@ -93,7 +274,6 @@ const navigation = useNavigation();
   }
 
   &__sub {
-    position: absolute;
     opacity: 0;
     visibility: hidden;
     transform: scale(0.95);
@@ -101,22 +281,42 @@ const navigation = useNavigation();
     right: 0;
     z-index: 10;
     padding: 1rem;
-    border-radius: 0.75rem;
+    border-radius: 0 0 0.75rem 0.75rem;
     background: var(--color-white);
-    width: 20rem;
     transform-origin: top right;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+
+    @media (--viewport-md-min) {
+      border-radius: 0.75rem;
+      width: 20rem;
+    }
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
   }
 
   &__sub-item {
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     display: block;
     font-weight: 500;
     opacity: 0.9;
-    margin-block: 0.5rem;
-    border-radius: 0.5rem;
     transition: all 0.2s;
+    border-left: 1px solid var(--color-gray-light);
+
+    @media (--viewport-md-min) {
+      border-left: none;
+      padding: 0.5rem;
+      margin-block: 0.5rem;
+      border-radius: 0.5rem;
+    }
 
     &:hover {
+      border-radius: 0.5rem;
       background: var(--color-primary-light);
       color: var(--color-primary);
     }
