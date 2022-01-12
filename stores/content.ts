@@ -4,7 +4,10 @@ export const useContent = defineStore({
   id: "content",
 
   state: () => ({
-    pageContent: null,
+    pageContent: {
+      meta: null,
+      route: null,
+    },
   }),
 
   getters: {
@@ -17,7 +20,3 @@ export const useContent = defineStore({
     },
   },
 });
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useContent, import.meta.hot));
-}

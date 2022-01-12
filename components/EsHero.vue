@@ -10,7 +10,11 @@
       <h1 class="es-hero__title">{{ $content().route.heroHeader }}</h1>
       <p class="es-hero__text">{{ $content().route.heroDescription }}</p>
 
-      <NuxtLink :to="$content().route.heroCTALink.view.url" class="button">
+      <NuxtLink
+        v-if="$content().route.heroCTALink"
+        :to="$content().route.heroCTALink.view.url"
+        class="button"
+      >
         {{ $content().route.heroCTACaption }}
       </NuxtLink>
     </div>

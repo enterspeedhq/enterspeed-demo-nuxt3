@@ -9,6 +9,7 @@
           name="description"
           :content="$content().route.seoMetaDescription"
         />
+        <Link rel="manifest" href="/site.webmanifest" />
       </Head>
     </Html>
 

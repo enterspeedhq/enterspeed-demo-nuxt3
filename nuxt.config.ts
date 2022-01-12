@@ -1,11 +1,9 @@
 import { defineNuxtConfig } from "nuxt3";
-
 import postcssImport from "postcss-import";
 import postcssPresetEnv from "postcss-preset-env";
 import postcssNested from "postcss-nested";
 
 export default defineNuxtConfig({
-  target: "static",
   meta: {
     meta: [
       { charset: "utf-8" },
