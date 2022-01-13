@@ -5,8 +5,8 @@ export const useContent = defineStore({
 
   state: () => ({
     pageContent: {
-      meta: null,
-      route: null,
+      meta: {},
+      route: {},
     },
   }),
 

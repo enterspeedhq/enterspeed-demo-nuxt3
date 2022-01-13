@@ -28,7 +28,11 @@
           </svg>
         </button>
 
-        <div class="header__links" :class="{ 'header__links--open': open }">
+        <div
+          v-if="navigation.hasItems"
+          class="header__links"
+          :class="{ 'header__links--open': open }"
+        >
           <div
             v-for="item in navigation.items"
             :key="item.id"
@@ -74,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNavigation } from "~/stores/navigation";
+import { useNavigation } from "../stores/navigation";
 
 const navigation = useNavigation();
 </script>
