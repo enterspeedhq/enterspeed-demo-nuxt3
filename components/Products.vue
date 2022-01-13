@@ -12,7 +12,7 @@
         >
           <img
             class="es-products__image"
-            src="/the-flying-trunk-book.jpg"
+            src="~/assets/img/the-flying-trunk-book.jpg"
             :alt="product.view.name"
           />
 

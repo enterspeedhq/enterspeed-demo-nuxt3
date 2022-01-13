@@ -2,7 +2,7 @@
   <div class="es-hero">
     <img
       class="es-hero__image"
-      src="/fairy-tale-header.jpg"
+      src="~/assets/img/fairy-tale-header.jpg"
       :alt="$content().route.heroHeader"
     />
 

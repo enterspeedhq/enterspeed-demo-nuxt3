@@ -1,6 +1,10 @@
 <template>
   <div class="es-page-header">
-    <img class="es-page-header__image" src="/fairy-tale-header.jpg" alt="" />
+    <img
+      class="es-page-header__image"
+      src="~/assets/img/fairy-tale-header.jpg"
+      alt=""
+    />
     <h1 class="es-page-header__title">{{ $content().route.headline }}</h1>
   </div>
 </template>

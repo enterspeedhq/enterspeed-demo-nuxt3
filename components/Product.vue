@@ -16,7 +16,10 @@
         </div>
 
         <div class="es-product__image">
-          <img src="/the-flying-trunk-book.jpg" :alt="$content().route.name" />
+          <img
+            src="~/assets/img/the-flying-trunk-book.jpg"
+            :alt="$content().route.name"
+          />
         </div>
       </div>
     </div>
