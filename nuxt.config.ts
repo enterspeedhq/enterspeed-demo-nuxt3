@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
+  target: "server",
   publicRuntimeConfig: {
     DELIVERY_API_KEY: process.env.DELIVERY_API_KEY,
     DELIVERY_API_PATH: process.env.DELIVERY_API_PATH,
@@ -28,6 +29,9 @@ export default defineNuxtConfig({
   pageTransition: {
     name: "home",
     mode: "out-in",
+  },
+  router: {
+    trailingSlash: true,
   },
   vite: {
     css: {
