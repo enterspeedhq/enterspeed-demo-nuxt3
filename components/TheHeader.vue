@@ -79,43 +79,30 @@
 
 <script setup lang="ts">
 import { useNavigation } from "../stores/navigation";
+import { ref } from "vue";
+import { onBeforeRouteUpdate } from "vue-router";
 
 const navigation = useNavigation();
-</script>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      open: false,
-      activeSub: "",
-    };
-  },
-  methods: {
-    toggle() {
-      this.open = !this.open;
-    },
-    toggleSub(id: string) {
-      if (id == this.activeSub) {
-        this.activeSub = "";
-      } else {
-        this.activeSub = id;
-      }
-    },
-    onRouteChange() {
-      this.open = false;
-      this.activeSub = "";
-    },
-  },
-  watch: {
-    $route: {
-      handler: "onRouteChange",
-      flush: "pre",
-      immediate: true,
-      deep: true,
-    },
-  },
+let open = ref(false);
+const activeSub = ref("");
+
+const toggle = () => {
+  open.value = !open.value;
 };
+
+const toggleSub = (id: string) => {
+  if (id == activeSub.value) {
+    activeSub.value = "";
+  } else {
+    activeSub.value = id;
+  }
+};
+
+onBeforeRouteUpdate(() => {
+  open.value = false;
+  activeSub.value = "";
+});
 </script>
 
 <style lang="postcss" scoped>
@@ -319,7 +306,8 @@ export default {
       border-radius: 0.5rem;
     }
 
-    &:hover {
+    &:hover,
+    &.router-link-exact-active {
       border-radius: 0.5rem;
       background: var(--color-primary-light);
       color: var(--color-primary);
@@ -327,3 +315,6 @@ export default {
   }
 }
 </style>
+
+function watchEffect(arg0: () => any) { throw new Error('Function not
+implemented.'); }

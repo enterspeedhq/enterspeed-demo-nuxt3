@@ -5,11 +5,11 @@ export const useNavigation = defineStore({
 
   state: () => ({
     navigationOpen: false,
-    navigationItems: null,
+    navigationItems: [],
   }),
 
   getters: {
-    hasItems: (state) => !!state.navigationItems,
+    hasItems: (state) => !!state.navigationItems.length,
     items: (state) => state.navigationItems,
     isOpen: (state) => state.navigationOpen,
   },

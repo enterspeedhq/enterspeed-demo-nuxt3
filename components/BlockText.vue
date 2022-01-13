@@ -2,15 +2,13 @@
   <div class="container es-block-text" v-html="data.text" />
 </template>
 
-<script>
-export default {
-  props: {
-    data: {
-      type: Object,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
   },
-};
+});
 </script>
 
 <style lang="postcss">

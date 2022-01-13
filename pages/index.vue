@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <EsHero />
-  </div>
+  <EsHero />
 </template>
 
 <script>

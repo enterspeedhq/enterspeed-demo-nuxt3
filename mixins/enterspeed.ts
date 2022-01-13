@@ -2,7 +2,7 @@ import { useNavigation } from "~/stores/navigation";
 import { useContent } from "~/stores/content";
 
 const setup = async () => {
-  const { $config } = useNuxtApp();
+  const { $config, vueApp } = useNuxtApp();
 
   const currentRoute = useRoute();
   const router = useRouter();
@@ -50,7 +50,6 @@ const setup = async () => {
   switch (meta.status) {
     case 301:
       router.replace(redirect);
-
     default:
       break;
   }
@@ -59,8 +58,6 @@ const setup = async () => {
     meta,
     route,
   });
-
-  console.log("fetch");
 
   return {
     meta,

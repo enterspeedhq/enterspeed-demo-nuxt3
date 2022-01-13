@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import "@fontsource/henny-penny";
 import "@fontsource/gentium-book-basic";
 </script>

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <component :is="$content().route.type" />
-  </div>
+  <component :is="$content().route.type" />
 </template>
 
 <script>
