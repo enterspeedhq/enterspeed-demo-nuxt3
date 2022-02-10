@@ -1,7 +1,12 @@
-import { defineNuxtConfig } from "nuxt3";
+import { defineNuxtConfig, NuxtConfig } from "nuxt3";
 import postcssImport from "postcss-import";
 import postcssPresetEnv from "postcss-preset-env";
 import postcssNested from "postcss-nested";
+import { getRoutes } from "./enterspeed-routes";
+
+interface CustomConfig extends NuxtConfig {
+  sitemap: any;
+}
 
 export default defineNuxtConfig({
   meta: {
@@ -21,7 +26,7 @@ export default defineNuxtConfig({
   },
   loading: { color: "#0B0F89", throttle: 200 },
   css: ["assets/css/master.css"],
-  buildModules: ["@pinia/nuxt"],
+  buildModules: ["@pinia/nuxt", "@nuxtjs/sitemap"],
   build: {
     extractCSS: true,
     optimizeCSS: true,
@@ -32,6 +37,12 @@ export default defineNuxtConfig({
   },
   router: {
     trailingSlash: true,
+  },
+  sitemap: {
+    gzip: true,
+    routes: async () => {
+      return getRoutes();
+    },
   },
   vite: {
     css: {
@@ -62,4 +73,4 @@ export default defineNuxtConfig({
       },
     },
   },
-});
+} as CustomConfig);

@@ -13,9 +13,11 @@
     "nuxt3": "latest"
   },
   "dependencies": {
-    "@fontsource/henny-penny": "^4.5.0",
     "@fontsource/gentium-book-basic": "^4.5.0",
+    "@fontsource/henny-penny": "^4.5.0",
+    "@nuxtjs/sitemap": "^2.4.0",
     "@pinia/nuxt": "^0.1.8",
+    "axios": "^0.25.0",
     "pinia": "^2.0.9",
     "postcss": "^7.0.0",
     "postcss-import": "^12.0.1",
