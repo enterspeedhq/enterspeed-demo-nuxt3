@@ -1,11 +1,12 @@
 <template>
-  <EsHero />
+  <div>
+    <TheHeader />
+    <EsHero />
+    <TheFooter />
+  </div>
 </template>
 
-<script>
-import { setup } from "../mixins/enterspeed";
-
-export default {
-  setup,
-};
+<script setup lang="ts">
+import { connect } from "../enterspeed-connect";
+await useAsyncData("content", () => connect());
 </script>
