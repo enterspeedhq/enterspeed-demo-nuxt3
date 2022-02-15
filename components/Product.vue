@@ -9,7 +9,7 @@
           </p>
 
           <button class="button">
-            Buy now
+            {{ $translate("BuyNow") }}
             {{ $content().route.price }}
             {{ $content().route.currency.view.defaultCurrency }}
           </button>

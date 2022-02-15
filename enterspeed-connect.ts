@@ -1,5 +1,10 @@
 import { useNavigation } from "~/stores/navigation";
 import { useContent } from "~/stores/content";
+import { useDictionaries } from "./stores/dictionaries";
+import {
+  IDictionaryLanguage,
+  IEnterspeedDictionaryItem,
+} from "./enterspeed-types";
 
 export const connect = async () => {
   const { $config, ssrContext } = useNuxtApp();
@@ -8,14 +13,18 @@ export const connect = async () => {
   const router = useRouter();
   const contentStore = useContent();
   const navigation = useNavigation();
-
-  const handles: any = {};
+  const dictionaries = useDictionaries();
 
   var params = new URLSearchParams();
 
-  const { hasItems } = navigation;
-  if (!hasItems) {
+  // If navigation havent been loaded, add them to the request
+  if (!navigation.hasItems) {
     params.append("handle", "navigation");
+  }
+
+  // If dictionaries havent been loaded, add them to the request
+  if (!dictionaries.hasLoaded) {
+    params.append("handle", `dictionaries-${dictionaries.getCurrentLanguage}`);
   }
 
   const url = decodeURIComponent(currentRoute.fullPath);
@@ -39,8 +48,24 @@ export const connect = async () => {
   }
 
   if (views) {
+    // If navigation is fetched, add them to the application
     if (views.navigation?.navigationItems) {
       navigation.setItems(views.navigation.navigationItems);
+    }
+
+    // If dictionaries are fetched, add them to the application
+    if (views.dictionaries?.translations) {
+      // Transforming enterspeed dictionaries into a dictionary language
+      const translations: IDictionaryLanguage =
+        views.dictionaries.translations.items.reduce(
+          (a: IEnterspeedDictionaryItem, v: IEnterspeedDictionaryItem) => ({
+            ...a,
+            [v.key]: v.translation,
+          }),
+          {}
+        );
+
+      dictionaries.setCurrentTranslations(translations);
     }
   }
 
@@ -48,7 +73,7 @@ export const connect = async () => {
 
   switch (meta.status) {
     case 404:
-      // Fetch the schema with the "notfound" handle
+      // Fetch the schema with the "notfound" handle when status is 404
       var notFoundParams = new URLSearchParams();
       notFoundParams.append("handle", "notfound");
 

@@ -34,8 +34,6 @@ export const getRoutes = async () => {
       }
     });
 
-    console.log(routes);
-
     return routes;
   }
 

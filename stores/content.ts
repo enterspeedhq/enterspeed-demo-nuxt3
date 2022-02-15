@@ -1,4 +1,4 @@
-import { acceptHMRUpdate, defineStore } from "pinia";
+import { defineStore } from "pinia";
 
 export const useContent = defineStore({
   id: "content",
@@ -11,7 +11,7 @@ export const useContent = defineStore({
   }),
 
   getters: {
-    content: (state) => state.pageContent,
+    getContent: (state) => state.pageContent,
   },
 
   actions: {

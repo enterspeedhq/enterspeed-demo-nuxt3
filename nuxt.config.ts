@@ -40,9 +40,7 @@ export default defineNuxtConfig({
   },
   sitemap: {
     gzip: true,
-    routes: async () => {
-      return getRoutes();
-    },
+    routes: async () => getRoutes(),
   },
   vite: {
     css: {
@@ -52,7 +50,6 @@ export default defineNuxtConfig({
           postcssPresetEnv({
             stage: 2,
             preserve: false,
-
             importFrom: [
               "assets/css/_variables.css",
               "assets/css/_mediaqueries.css",
