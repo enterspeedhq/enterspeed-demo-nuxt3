@@ -1,56 +1,50 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { createWriteStream } from "fs";
 import { SitemapStream } from "sitemap";
+import { IRoutesResponse } from "./enterspeed-types";
 
-export const generateEnterspeedSitemap = async () => {
-  if (!process.env.DELIVERY_API_PATH || !process.env.DELIVERY_API_KEY) {
-    return [];
+const getRoutes = async () => {
+  if (!process.env.ENTERSPEED_API_PATH || !process.env.DELIVERY_API_KEY) {
+    return null;
   }
 
   const headers = {
     "X-Api-Key": process.env.DELIVERY_API_KEY,
   };
 
-  var sitemapParams = new URLSearchParams();
-  sitemapParams.append("handle", "navigation");
+  var routesParams = new URLSearchParams();
+  routesParams.append("first", "100");
 
-  const sitemapReqUrl = new URL(process.env.DELIVERY_API_PATH);
-  sitemapReqUrl.search = sitemapParams.toString();
+  const routesReqUrl = new URL(process.env.ENTERSPEED_API_PATH + "/routes/v1");
+  routesReqUrl.search = routesParams.toString();
 
-  const sitemapReq = await axios.get(sitemapReqUrl.toString(), {
-    headers,
-  });
+  const routesReq: AxiosResponse<IRoutesResponse> = await axios.get(
+    routesReqUrl.toString(),
+    {
+      headers,
+    }
+  );
 
-  let sitemapData = sitemapReq.data;
+  return routesReq.data.results;
+};
 
-  if (sitemapData.views.navigation.navigationItems) {
-    const routes: string[] = [];
+export const generateEnterspeedSitemap = async () => {
+  const routes = await getRoutes();
 
-    sitemapData.views.navigation.navigationItems.forEach((x: any) => {
-      routes.push(x.view.href);
-
-      if (x.view.children.length) {
-        x.view.children.forEach((y: any) => {
-          routes.push(y.href);
-        });
-      }
-    });
-
-    const sitemap = new SitemapStream({
-      hostname: "https://enterspeed-demo-nuxt3.netlify.app",
-    });
-
-    const writeStream = createWriteStream("./public/sitemap.xml");
-    sitemap.pipe(writeStream);
-
-    routes.forEach((x) => {
-      sitemap.write(x);
-    });
-
-    sitemap.end();
-
-    return routes;
+  if (!routes) {
+    return;
   }
 
-  return [];
+  const sitemap = new SitemapStream({
+    hostname: process.env.DOMAIN,
+  });
+
+  const writeStream = createWriteStream("./public/sitemap.xml");
+  sitemap.pipe(writeStream);
+
+  routes.forEach((x) => {
+    sitemap.write(x.url);
+  });
+
+  sitemap.end();
 };
