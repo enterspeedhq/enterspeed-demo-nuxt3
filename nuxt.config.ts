@@ -1,12 +1,9 @@
 import { defineNuxtConfig, NuxtConfig } from "nuxt3";
+import { Builder, NuxtOptions } from "nuxt";
 import postcssImport from "postcss-import";
 import postcssPresetEnv from "postcss-preset-env";
 import postcssNested from "postcss-nested";
-import { getRoutes } from "./enterspeed-routes";
-
-interface CustomConfig extends NuxtConfig {
-  sitemap: any;
-}
+import { generateEnterspeedSitemap } from "./enterspeed-sitemap";
 
 export default defineNuxtConfig({
   meta: {
@@ -38,9 +35,10 @@ export default defineNuxtConfig({
   router: {
     trailingSlash: true,
   },
-  sitemap: {
-    gzip: true,
-    routes: async () => getRoutes(),
+  hooks: {
+    "build:before": () => {
+      generateEnterspeedSitemap();
+    },
   },
   vite: {
     css: {
@@ -70,4 +68,4 @@ export default defineNuxtConfig({
       },
     },
   },
-} as CustomConfig);
+});
