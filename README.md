@@ -44,7 +44,7 @@ Create the schemas and partial schema from [example-data/enterspeed-schemas/sche
 
 ### Nuxt3
 
-Clone the project and run: `npm i && npm run dev`.
+Clone the project and run: `yarn && yarn dev`.
 
 Create a file called ".env" and insert your environment API key and delivery api path like this:
 
