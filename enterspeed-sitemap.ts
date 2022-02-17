@@ -43,7 +43,10 @@ export const generateEnterspeedSitemap = async () => {
   sitemap.pipe(writeStream);
 
   routes.forEach((x) => {
-    sitemap.write(x.url);
+    sitemap.write({
+      url: x.url,
+      lastmod: new Date(x.updatedAt).toISOString(),
+    });
   });
 
   sitemap.end();
