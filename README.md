@@ -48,7 +48,12 @@ Clone the project and run: `yarn && yarn dev`.
 
 Create a file called ".env" and insert your environment API key and delivery api path like this:
 
-`ENTERSPEED_ENVIRONMENT_API_KEY=[YOUR-ENTERSPEED-API-KEY-HERE] DELIVERY_API_PATH=https://delivery.enterspeed.com/v1 `
+```
+ENTERSPEED_ENVIRONMENT_API_KEY=[YOUR-ENTERSPEED-API-KEY-HERE]
+DELIVERY_API_PATH=https://delivery.enterspeed.com/v1 
+ENTERSPEED_API_PATH=https://api.enterspeed.com
+DOMAIN=https://enterspeed-demo-nuxt3.netlify.app
+```
 
 **:warning: For a production environment, this should be injected on build time.**
 
