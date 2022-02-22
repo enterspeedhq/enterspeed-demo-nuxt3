@@ -4,6 +4,7 @@ import { useDictionaries } from "./stores/dictionaries";
 import {
   IDictionaryLanguage,
   IEnterspeedDictionaryItem,
+  IEnterspeedResponse,
 } from "./enterspeed-types";
 
 export const connect = async () => {
@@ -41,11 +42,7 @@ export const connect = async () => {
     headers,
   });
 
-  let { meta, route, views } = await req.json();
-
-  if (!meta) {
-    throw new Error("No meta provided");
-  }
+  let { meta, route, views } = (await req.json()) as IEnterspeedResponse;
 
   if (views) {
     // If navigation is fetched, add them to the application
@@ -68,8 +65,6 @@ export const connect = async () => {
       dictionaries.setCurrentTranslations(translations);
     }
   }
-
-  const redirect = meta.redirectUrl || "/";
 
   switch (meta.status) {
     case 404:
@@ -94,7 +89,22 @@ export const connect = async () => {
       }
 
     case 301:
-      router.push(redirect);
+      // On 301 status, create a redirect
+      if (ssrContext) {
+        const { res } = ssrContext;
+
+        if (meta.redirect) {
+          res.writeHead(301, {
+            Location: meta.redirect,
+          });
+          res.end();
+        }
+      } else {
+        if (meta.redirect) {
+          window.location.replace(meta.redirect);
+        }
+      }
+
     default:
       break;
   }

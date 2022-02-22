@@ -1,7 +1,7 @@
 <template>
   <div>
     <TheHeader />
-    <component :is="$content().route.type" />
+    <component v-if="$content().route" :is="$content().route.type" />
     <TheFooter />
   </div>
 </template>
